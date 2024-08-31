@@ -12,7 +12,7 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.route('/opd_booking', methods=['GET', 'POST'])
+@app.route('/opd_booking.html', methods=['GET', 'POST'])
 def opd_booking():
     if request.method == 'POST':
         name = request.form['name']
@@ -20,16 +20,21 @@ def opd_booking():
         appointment = Appointment(name=name, symptoms=symptoms)
         db.session.add(appointment)
         db.session.commit()
-        return redirect(url_for('opd_booking'))
+        return redirect(url_for('opd_booking.html'))
     appointments = Appointment.query.all()
     return render_template('opd_booking.html', appointments=appointments)
 
-@app.route('/bed_availability')
+@app.route('/bed_availability.html')
 def bed_availability():
-    beds = Bed.query.all()
+    #beds = Bed.query.all()
+    beds = [
+        {'id': 1, 'available': True},
+        {'id': 2, 'available': False},
+        {'id': 3, 'available': True},
+    ]
     return render_template('bed_availability.html', beds=beds)
 
-@app.route('/patient_admission', methods=['GET', 'POST'])
+@app.route('/patient_admission.html', methods=['GET', 'POST'])
 def patient_admission():
     if request.method == 'POST':
         name = request.form['name']
@@ -40,11 +45,11 @@ def patient_admission():
         bed = Bed.query.get(bed_id)
         bed.available = False
         db.session.commit()
-        return redirect(url_for('patient_admission'))
+        return redirect(url_for('patient_admission.html'))
     beds = Bed.query.filter_by(available=True).all()
     return render_template('patient_admission.html', beds=beds)
 
-@app.route('/inventory', methods=['GET', 'POST'])
+@app.route('/inventory.html', methods=['GET', 'POST'])
 def inventory():
     if request.method == 'POST':
         name = request.form['name']
@@ -52,7 +57,7 @@ def inventory():
         medicine = Medicine(name=name, quantity=quantity)
         db.session.add(medicine)
         db.session.commit()
-        return redirect(url_for('inventory'))
+        return redirect(url_for('inventory.html'))
     medicines = Medicine.query.all()
     return render_template('inventory.html', medicines=medicines)
 
