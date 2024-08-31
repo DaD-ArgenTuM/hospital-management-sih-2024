@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Bed Availability</h2>
+<ul>
+    {% for bed in beds %}
+        <li>Bed {{ bed.id }} - {% if bed.available %}Available{% else %}Occupied{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

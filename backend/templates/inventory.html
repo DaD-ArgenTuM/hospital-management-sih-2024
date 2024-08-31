@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Inventory Management</h2>
+<form action="/inventory" method="POST">
+    <label for="name">Medicine Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" required>
+    <button type="submit">Add to Inventory</button>
+</form>
+<h3>Current Inventory:</h3>
+<ul>
+    {% for medicine in medicines %}
+        <li>{{ medicine.name }} - {{ medicine.quantity }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
